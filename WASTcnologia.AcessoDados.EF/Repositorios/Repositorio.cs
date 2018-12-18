@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace WASTcnologia.AcessoDados.EF.Repositorios
 {
-    public abstract class Repositorio<T, TChave> : IRepositorio<T, TChave> where T : class
+    public abstract class Repositorio<T, TChave> : IRepositorio<T, TChave>, IDisposable where T : class
     {
         protected DbContext _banco;
 
@@ -21,6 +21,11 @@ namespace WASTcnologia.AcessoDados.EF.Repositorios
         {
             _banco.Entry(entidade).State = EntityState.Modified;
             _banco.SaveChanges();
+        }
+
+        public void Dispose()
+        {
+            _banco.Dispose();
         }
 
         public void Excluir(T entidade)
@@ -38,6 +43,7 @@ namespace WASTcnologia.AcessoDados.EF.Repositorios
         public void Inserir(T entidade)
         {
             _banco.Set<T>().Add(entidade);
+            _banco.SaveChanges();
         }
 
         public List<T> Selecionar(Expression<Func<T, bool>> where = null)
