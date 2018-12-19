@@ -8,6 +8,9 @@ using WASTcnologia.WebAPI.DTOs;
 
 namespace WASTcnologia.WebAPI.AutoMapper
 {
+    // Padrão Singleton (Unica instacia para todo o sistema)
+
+
     public class AutoMapperManager
     {
         private static readonly Lazy<AutoMapperManager> _instance = new Lazy<AutoMapperManager>(() =>

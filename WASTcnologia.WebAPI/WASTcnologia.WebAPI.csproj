@@ -179,6 +179,7 @@
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="DTOs\AlunoDTO.cs" />
     <Compile Include="Filtros\ValidacaoModeStateAttribute.cs" />
+    <Compile Include="FormatadoresMediTypes\CsvMediaTypeFormatter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
