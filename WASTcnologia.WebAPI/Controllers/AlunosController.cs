@@ -13,6 +13,8 @@ using WASTcnologia.WebAPI.Filtros;
 
 namespace WASTcnologia.WebAPI.Controllers
 {
+    [RoutePrefix("api/alunos")]
+    [Authorize]
     public class AlunosController : ApiController
     {
         private IRepositorio<Aluno, int> _repositorioAlunos = new RepositorioAlunos(new WebApiDbContext());
@@ -54,13 +56,21 @@ namespace WASTcnologia.WebAPI.Controllers
                 return BadRequest();
             }
             Aluno aluno = _repositorioAlunos.SelecionarPorId((int)id);
-            if (aluno == null)
+            AlunoDTO dto = AutoMapperManager.Instance.Mapper.Map<Aluno, AlunoDTO>(aluno);
+
+            if (dto == null)
             {
                 return NotFound();
             }
-            return Content(HttpStatusCode.Found, aluno);
+            return Content(HttpStatusCode.OK, dto);
         }
-
+        [Route("por-nome/{nomeAluno}")]
+        public IHttpActionResult Get(string nomeAluno)
+        {
+            List<Aluno> alunos = _repositorioAlunos.Selecionar(s => s.Nome.ToLower().Contains(nomeAluno.ToLower()));
+            List<AlunoDTO> dtos = AutoMapperManager.Instance.Mapper.Map<List<Aluno>, List<AlunoDTO>>(alunos);
+            return Ok(dtos);
+        }
         //Implementação WebApi 2.0 (IHttpActionResult) Async
         [ValidacaoModeState] //Filtro de Validação if (!ModelState.IsValid)
         public IHttpActionResult Post([FromBody]Aluno aluno)

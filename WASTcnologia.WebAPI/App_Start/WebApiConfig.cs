@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using WASTcnologia.WebAPI.Filtros;
 using WASTcnologia.WebAPI.FormatadoresMediTypes;
 
 namespace WASTcnologia.WebAPI
@@ -26,6 +27,9 @@ namespace WASTcnologia.WebAPI
             };
             //registrandi o tipo csv (CsvMediaTypeFormatter)
             config.Formatters.Add(new CsvMediaTypeFormatter());
+
+            //Registra o Filtro globamente
+            config.Filters.Add(new FilterPreencherResponseHateosAttribute());
 
             //Remove a resposta em xml da api
             //var xmlFormatter = config.Formatters.XmlFormatter;
